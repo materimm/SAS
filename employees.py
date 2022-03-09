@@ -1,8 +1,8 @@
-import tests as t
 import unittest
 
 
 def get_employee_birthdays(month, employees):
+    # initial error checks
     if month is None:
         return 'ERROR: Month input is invalid.'
     elif employees is None:
@@ -13,25 +13,24 @@ def get_employee_birthdays(month, employees):
         return 'ERROR: Employees list input is an invalid type.'
     elif len(employees) == 0:
         return 'ERROR: No employees found.'
+    elif (month < 1) | (month > 12):
+        return 'ERROR: Month input is not an accepted value (1-12).'
 
+    # return list
     bd_list = []
+    # loop through list of employee objects
     for e in employees:
-        if all (key in e for key in ['first_name', 'last_name', 'birthday']):
-            bd = e.get('birthday')
-            birth_month = bd.split('/')[0]
-            if int(birth_month) == month:
-                bd_list.append(e.get('first_name') + ' ' + e.get('last_name'))
-        else:
-            print('missing key')
-            continue
+        bd = e.get('birthday')
+        birth_month = bd.split('/')[0]
+        if int(birth_month) == month:
+            bd_list.append(e)
 
     return bd_list
 
 
-# r = get_employee_birthdays(5, t.get_employee_array())
-# print(r)
-
+# unit test case class
 class TestEmployeeBirthdays(unittest.TestCase):
+    # a simple list of employee objects
     def get_simple_employee_list(self):
         return [
             {
@@ -66,14 +65,26 @@ class TestEmployeeBirthdays(unittest.TestCase):
             },
         ]
 
-
+    # test the cupcake success case
     def test_basic_success(self):
         e = self.get_simple_employee_list()
         actual = get_employee_birthdays(5, e)
-        expected = ['Maurice Materise', 'John Smith']
+        expected = [{
+                'id':1,
+                'first_name': 'Maurice',
+                'last_name': 'Materise',
+                'birthday': '5/16/1993'
+            },
+            {
+                'id':4,
+                'first_name': 'John',
+                'last_name': 'Smith',
+                'birthday': '5/1/1982'
+            }]
         self.assertEqual(actual, expected)
 
 
+    # test for when month is none
     def test_null_month(self):
         e = self.get_simple_employee_list()
         actual = get_employee_birthdays(None, e)
@@ -81,12 +92,14 @@ class TestEmployeeBirthdays(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+    # test for when the employee list is none
     def test_null_employees(self):
         actual = get_employee_birthdays(5, None)
         expected = 'ERROR: Employees list input is invalid.'
         self.assertEqual(actual, expected)
 
 
+    # test for bad type
     def test_bad_month_type(self):
         e = self.get_simple_employee_list()
         actual = get_employee_birthdays('5', e)
@@ -94,13 +107,22 @@ class TestEmployeeBirthdays(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+    # test for bad type
     def test_bad_employee_type(self):
         actual = get_employee_birthdays(5, 5)
         expected = 'ERROR: Employees list input is an invalid type.'
         self.assertEqual(actual, expected)
 
 
+    # test for an empty list
     def test_empty_list(self):
         actual = get_employee_birthdays(5, [])
         expected = 'ERROR: No employees found.'
+        self.assertEqual(actual, expected)
+
+    # test for negative month
+    def test_negative_month(self):
+        e = self.get_simple_employee_list()
+        actual = get_employee_birthdays(-5, e)
+        expected = 'ERROR: Month input is not an accepted value (1-12).'
         self.assertEqual(actual, expected)

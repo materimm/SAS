@@ -20,3 +20,18 @@ Be prepared to:
 Present your script/program and walk through how you have met the acceptance criteria  
 Talk about how you have tested it  
 Discuss any challenges you may have encountered  
+
+==================================================================  
+  
+# Unit Tests:  
+
+To run: python -m unittest employees.py  
+
+Test cases:  
+1) Basic success case  
+2) Null month  
+3) Null employee list  
+4) Bad month type  
+5) Bad employee list type  
+6) Empty employee list  
+7) Negative month  
