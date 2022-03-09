@@ -25,7 +25,7 @@ def get_employee_birthdays(month, employees):
         if int(birth_month) == month:
             bd_list.append(e)
 
-    return bd_list
+    return {'birthdays': bd_list}
 
 
 # unit test case class
@@ -69,7 +69,7 @@ class TestEmployeeBirthdays(unittest.TestCase):
     def test_basic_success(self):
         e = self.get_simple_employee_list()
         actual = get_employee_birthdays(5, e)
-        expected = [{
+        expected = {'birthdays': [{
                 'id':1,
                 'first_name': 'Maurice',
                 'last_name': 'Materise',
@@ -80,7 +80,7 @@ class TestEmployeeBirthdays(unittest.TestCase):
                 'first_name': 'John',
                 'last_name': 'Smith',
                 'birthday': '5/1/1982'
-            }]
+            }]}
         self.assertEqual(actual, expected)
 
 
