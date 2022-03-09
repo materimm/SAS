@@ -1,0 +1,9 @@
+tr, .text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+th, .header {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
