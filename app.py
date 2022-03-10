@@ -20,7 +20,7 @@ def birthdays():
 def get_birthdays(month=None):
     month = request.args.get('month')
     employees = get_employees()
-    birthdays = api.get_employee_birthdays(int(month), employees)
+    birthdays = api.get_birthdays(int(month), employees)
     return birthdays
 
 
